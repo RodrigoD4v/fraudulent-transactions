@@ -3,15 +3,31 @@ import click
 import logging
 from pathlib import Path
 from dotenv import find_dotenv, load_dotenv
+import pandas as pd
 
 
 @click.command()
 @click.argument('input_filepath', type=click.Path(exists=True))
 @click.argument('output_filepath', type=click.Path())
-def main(input_filepath, output_filepath):
+@click.option('--nrows', default = None, help = 'Número de Linhas')
+@click.option('--target', default = 'isFrald', help = 'Coluna Alvo Principal para Estratificação')
+def main(input_filepath, output_filepath, nrows, target):
     """ Runs data processing scripts to turn raw data from (../raw) into
         cleaned data ready to be analyzed (saved in ../processed).
     """
+    
+    df = pd.read_csv(input_filepath)
+    
+    if nrows is not None and nrows < len(df):
+        frac = nrows/len(df)
+        start_col = [target, 'type']
+        df = df.groupby(start_col, group_keys=False).apply(lambda x:x.sample(frac = frac, random_state = 42))
+        
+    # Salvar arquivo em parquet
+    df.to_parquet(output_filepath, engine='pyarrow', index = False)
+    logger.info(f'Amostra salva em {output_filepath} com shape {df.shape} e proporção:')
+    logger.info(df[target].value_counts(normalize=True))
+    
     logger = logging.getLogger(__name__)
     logger.info('making final data set from raw data')
 
