@@ -9,12 +9,15 @@ import pandas as pd
 @click.command()
 @click.argument('input_filepath', type=click.Path(exists=True))
 @click.argument('output_filepath', type=click.Path())
-@click.option('--nrows', default = None, help = 'Número de Linhas')
-@click.option('--target', default = 'isFrald', help = 'Coluna Alvo Principal para Estratificação')
+@click.option('--nrows', default = None, type = int , help = 'Número de Linhas')
+@click.option('--target', default = 'isFraud', help = 'Coluna Alvo Principal para Estratificação')
 def main(input_filepath, output_filepath, nrows, target):
     """ Runs data processing scripts to turn raw data from (../raw) into
         cleaned data ready to be analyzed (saved in ../processed).
     """
+    
+    logger = logging.getLogger(__name__)
+    logger.info('making final data set from raw data')
     
     df = pd.read_csv(input_filepath)
     
@@ -27,10 +30,6 @@ def main(input_filepath, output_filepath, nrows, target):
     df.to_parquet(output_filepath, engine='pyarrow', index = False)
     logger.info(f'Amostra salva em {output_filepath} com shape {df.shape} e proporção:')
     logger.info(df[target].value_counts(normalize=True))
-    
-    logger = logging.getLogger(__name__)
-    logger.info('making final data set from raw data')
-
 
 if __name__ == '__main__':
     log_fmt = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
