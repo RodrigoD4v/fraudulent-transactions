@@ -4,14 +4,12 @@ import os
 def removendo_features_redundantes_e_ineficientes(df):
     print('Removendo colunas desnecessárias...')
     df = df.drop(['newbalanceOrig', 'newbalanceDest', 
-                  'isFlaggedFraud', 'nameOrig', 'nameDest'], axis=1)
+                  'isFlaggedFraud', 'nameOrig', 'nameDest', 'type'], axis=1)
     return df
 
 def criando_novas_features(df):
     print('Criando novas features...')
     df['hour'] = df['step'] % 24
-    df['balance_diff_orig'] = (df['oldbalanceOrg'] - df['newbalanceOrig']) - df['amount']
-    df['is_merchant_dest'] = df['nameDest'].str.startswith('M').astype(int)
     return df
 
 def main():
