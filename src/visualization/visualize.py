@@ -82,7 +82,7 @@ def plot_multiple_feature_importances(model_importances, feature_names, top_n=10
                     ax=axes[i], palette='viridis')
         
         axes[i].set_title(f'Importância: {model_name}')
-        axes[i].set_xlabel('Importância (Normalizada)')
+        axes[i].set_xlabel('Importância')
         axes[i].set_ylabel('Features')
 
     for j in range(i + 1, len(axes)):
