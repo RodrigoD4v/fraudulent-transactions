@@ -25,11 +25,16 @@ A base de dados utilizada é a [**Fraudulent Transactions Data**](https://www.ka
 
 ### 2. Pré-requisitos
 
-Certifique-se de ter o Python 3.9+ instalado. Instale as dependências do projeto com o comando:
+1. Certifique-se de ter o Python 3.9+ instalado. Instale as dependências do projeto com o comando:
 
-```bash
-pip install -r requirements.txt
-```
+   ```bash
+   pip install -r requirements.txt
+   ```
+2. Instale o pacote local para tornar os scripts da pasta src importáveis:
+
+   ```bash
+   pip install -e .
+   ```
 
 ## Estrutura
 
@@ -37,29 +42,29 @@ O projeto segue a estrutura padrão cookiecutter-data-science. Os scripts princi
 
 ## Etapas
 
-1. Processamento de Dados: Rode o script para processar os dados brutos e gerar os arquivos intermediários e processados.
+### 1. Processamento de Dados: Rode o script para processar os dados brutos e gerar os arquivos intermediários e processados.
 
    ```bash
    python src/data/make_dataset.py data/raw/Fraud.csv data/interim/Fraud_sample.parquet --nrows 500000
    ```
    
-2. Engenharia de Features: Execute o script para transformar os dados processados em features prontas para o modelo.
+### 2. Engenharia de Features: Execute o script para transformar os dados processados em features prontas para o modelo.
 
    ```bash
    python src/features/build_features.py
    ```
    
-3. Treine o Modelo: Rode o script de treinamento para treinar o modelo em uma amostra dos dados.
-
-    ```bash
-    python src/models/train_model.py
-    ```
-    
-4. Gere as Previsões: Utilize o modelo treinado para gerar previsões em todo o dataset.
+### 3. Treine o Modelo: Rode o script de treinamento para treinar o modelo em uma amostra dos dados.
 
    ```bash
-    python src/models/predict_model.py
-    ```
+   python src/models/train_model.py
+   ```
+    
+### 4. Gere as Previsões: Utilize o modelo treinado para gerar previsões em todo o dataset.
+
+   ```bash
+   python src/models/predict_model.py
+   ```
 
 5. Visualize os Resultados: Os gráficos de desempenho são salvos automaticamente na pasta **reports/figures/** após rodar o train_model.py e predict_model.py
 
