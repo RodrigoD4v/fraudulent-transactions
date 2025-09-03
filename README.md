@@ -1,15 +1,15 @@
 # Modelo de Detecção de Fraude em Transações Financeiras
 
-Este projeto desenvolve e valida um modelo de Machine Learning para a detecção de fraudes em transações financeiras. A solução utiliza o algoritmo **XGBoost** para identificar padrões fraudulentos em um dataset massivo de mais de 6 milhões de transações, com 99% de precisão e recall.
+Este projeto desenvolve e valida um modelo de Machine Learning para a detecção de fraudes em transações financeiras. A solução utiliza o algoritmo **XGBoost** para identificar padrões fraudulentos em um dataset massivo de mais de 6 milhões de transações, com 91% recall(macro).
 
 ---
 
 ## Visão Geral do Projeto
 
-O objetivo foi construir um modelo robusto para identificar transações fraudulentas (uma classe minoritária) de forma precisa e escalável.
+O objetivo foi construir um modelo robusto para identificar transações fraudulentas (uma classe minoritária do dataset) de forma precisa e escalável.
 
 * **Metodologia:** Utilizou-se uma amostra estratificada de 500k transações para treinar e comparar seis modelos de classificação. O modelo de melhor desempenho, o **XGBoost**, foi então validado em todo o conjunto de dados raw (6.4 milhões de transações).
-* **Resultados:** O modelo alcançou uma performance excepcional, mantendo a métrica **AUC-ROC em 0.99** e a métrica **AUC-PR em 0.80** no conjunto de dados completo, provando sua capacidade de generalização e eficácia em larga escala.
+* **Resultados:** O modelo alcançou uma performance excepcional, mantendo a métrica **AUC-ROC em 0.99** e a métrica **AUC-PR em 0.80** no conjunto de dados completo, provando sua capacidade de generalização, e eficácia em larga escala.
 
 Para uma análise completa e detalhada das métricas e da metodologia, consulte os relatórios na pasta [reports/](reports/).
 
@@ -25,12 +25,55 @@ A base de dados utilizada é a [**Fraudulent Transactions Data**](https://www.ka
 
 ### 2. Pré-requisitos
 
-1. Certifique-se de ter o Python 3.9+ instalado. Instale as dependências do projeto com o comando:
+1.  **Clone o Repositório:** Abra seu terminal e clone o projeto com o comando `git clone`.
+
+      ```bash
+      git clone https://github.com/RodrigoD4v/fraudulent-transactions.git
+      ```
+      
+      ```bash
+      cd fraudulent-transactions
+      ```
+   
+      Abra o projeto no seu editor de código favorito:
+       
+      ```bash
+      # Para VS Code
+      code .
+       
+      # Para PyCharm
+      charm .
+      ```
+
+2. **Crie as Pastas de Dados:** Como os dados não são enviados para o GitHub, crie as pastas necessárias para armazenar os arquivos.
+
+   ```bash
+   # Para usuários de Git Bash, macOS e Linux
+   mkdir -p data/raw data/interim data/processed
+   
+   # Para usuários de Windows Command Prompt (CMD)
+   md data\raw data\interim data\processed
+   ```
+
+3. **Crie e Ative o Ambiente Virtual:** É altamente recomendado usar um ambiente virtual para isolar as dependências do projeto(Certifique-se de ter o Python 3.9.19 instalado).
+
+   ```bash
+   # Ativando o ambiente virtual
+
+   ## Windows
+   venv\Scripts\activate
+   
+   ## macOS / Linux
+   source venv/bin/activate
+   ```
+
+4. **Instale as dependências do projeto com o comando**:
 
    ```bash
    pip install -r requirements.txt
    ```
-2. Instale o pacote local para tornar os scripts da pasta src importáveis:
+   
+5. **Instale o pacote local para tornar os scripts da pasta src importáveis**:
 
    ```bash
    pip install -e .
@@ -38,35 +81,35 @@ A base de dados utilizada é a [**Fraudulent Transactions Data**](https://www.ka
 
 ## Estrutura
 
-O projeto segue a estrutura padrão cookiecutter-data-science. Os scripts principais estão localizados na pasta src/models/.
+O projeto segue a estrutura padrão cookiecutter-data-science. Os scripts principais estão localizados na pasta `src/models/`.
 
 ## Etapas
 
-### 1. Processamento de Dados: Rode o script para processar os dados brutos e gerar os arquivos intermediários e processados.
+1. **Processamento de Dados**: Rode o script para processar os dados brutos e gerar os arquivos intermediários e processados.
 
    ```bash
    python src/data/make_dataset.py data/raw/Fraud.csv data/interim/Fraud_sample.parquet --nrows 500000
    ```
    
-### 2. Engenharia de Features: Execute o script para transformar os dados processados em features prontas para o modelo.
+2. **Engenharia de Features**: Execute o script para transformar os dados processados em features prontas para o modelo.
 
    ```bash
    python src/features/build_features.py
    ```
    
-### 3. Treine o Modelo: Rode o script de treinamento para treinar o modelo em uma amostra dos dados.
+3. **Treine o Modelo**: Rode o script de treinamento para treinar o modelo em uma amostra dos dados.
 
    ```bash
    python src/models/train_model.py
    ```
     
-### 4. Gere as Previsões: Utilize o modelo treinado para gerar previsões em todo o dataset.
+4. **Gere as Previsões**: Utilize o modelo treinado para gerar previsões em todo o dataset.
 
    ```bash
    python src/models/predict_model.py
    ```
 
-5. Visualize os Resultados: Os gráficos de desempenho são salvos automaticamente na pasta **reports/figures/** após rodar o train_model.py e predict_model.py
+5. **Visualize os Resultados**: Os gráficos de desempenho são salvos automaticamente na pasta `reports/figures/`, após rodar o train_model.py e predict_model.py
 
 ## Organização do Projeto
 ------------
