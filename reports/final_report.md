@@ -33,6 +33,8 @@ A validação cruzada mostrou que os modelos de *boosting* (XGBoost e LightGBM) 
 
 - **Matriz de Confusão**: O XGBoost e o LightGBM demonstraram a menor taxa de **Falsos Negativos** (fraudes não detectadas) durante o processo de validação.
 
+![Comparação da Matriz de Confusão](figures/all_confusion_matrices.png)
+
 ### 3.2. Desempenho do Modelo Final (XGBoost)
 
 O modelo XGBoost, treinado em 500 mil transações, foi avaliado em todo o conjunto de dados raw, de 6.4 milhões de transações. Os resultados confirmam sua robustez.
