@@ -1,57 +1,105 @@
-fraudulent-transactions
-==============================
+# Modelo de Detecção de Fraude em Transações Financeiras
 
-Fraud detection model for financial transactions
+Este projeto desenvolve e valida um modelo de Machine Learning para a detecção de fraudes em transações financeiras. A solução utiliza o algoritmo **XGBoost** para identificar padrões fraudulentos em um dataset massivo de mais de 6 milhões de transações, com 99% de precisão e recall.
 
-Project Organization
+---
+
+## Visão Geral do Projeto
+
+O objetivo foi construir um modelo robusto para identificar transações fraudulentas (uma classe minoritária) de forma precisa e escalável.
+
+* **Metodologia:** Utilizou-se uma amostra estratificada de 500k transações para treinar e comparar seis modelos de classificação. O modelo de melhor desempenho, o **XGBoost**, foi então validado em todo o conjunto de dados raw (6.4 milhões de transações).
+* **Resultados:** O modelo alcançou uma performance excepcional, mantendo a métrica **AUC-ROC em 0.99** e a métrica **AUC-PR em 0.80** no conjunto de dados completo, provando sua capacidade de generalização e eficácia em larga escala.
+
+Para uma análise completa e detalhada das métricas e da metodologia, consulte os relatórios na pasta [reports/](reports/).
+
+---
+
+## Como Usar o Projeto
+
+Siga os passos abaixo para reproduzir os resultados ou usar o modelo treinado.
+
+### 1. Obtenção dos Dados
+
+A base de dados utilizada é a [**Fraudulent Transactions Data**](https://www.kaggle.com/datasets/chitwanmanchanda/fraudulent-transactions-data) do Kaggle. Para obter os dados, siga as instruções na página da competição e salve os arquivos CSV na pasta `data/raw/`.
+
+### 2. Pré-requisitos
+
+Certifique-se de ter o Python 3.9+ instalado. Instale as dependências do projeto com o comando:
+
+```bash
+pip install -r requirements.txt
+```
+
+## Estrutura
+
+O projeto segue a estrutura padrão cookiecutter-data-science. Os scripts principais estão localizados na pasta src/models/.
+
+## Etapas
+
+1. Treine o Modelo: Rode o script de treinamento para treinar o modelo em uma amostra dos dados.
+
+    ```bash
+    python src/models/train_model.py
+    ```
+    
+2. Gere as Previsões: Utilize o modelo treinado para gerar previsões em todo o dataset.
+
+   ```bash
+    python src/models/predict_model.py
+    ```
+
+4. Visualize os Resultados: Os gráficos de desempenho são salvos automaticamente na pasta reports/figures/.
+
+   ```bash
+    python src/visualization/visualize.py
+    ```
+## Organização do Projeto
 ------------
 
+
     ├── LICENSE
-    ├── Makefile           <- Makefile with commands like `make data` or `make train`
-    ├── README.md          <- The top-level README for developers using this project.
+    ├── Makefile            <- Arquivo com comandos para o pipeline (`make data`, `make train`).
+    ├── README.md           <- Este arquivo principal do projeto.
     ├── data
-    │   ├── external       <- Data from third party sources.
-    │   ├── interim        <- Intermediate data that has been transformed.
-    │   ├── processed      <- The final, canonical data sets for modeling.
-    │   └── raw            <- The original, immutable data dump.
+    │   ├── external        <- Dados de fontes de terceiros.
+    │   ├── interim         <- Dados intermediários que foram transformados.
+    │   ├── processed       <- Conjuntos de dados finais e limpos para modelagem.
+    │   └── raw             <- Os dados originais e imutáveis.
     │
-    ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
+    ├── docs                <- Documentação do projeto (planos, dicionários de dados).
     │
-    ├── models             <- Trained and serialized models, model predictions, or model summaries
+    ├── models              <- Modelos treinados e serializados, e suas previsões.
     │
-    ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │                         the creator's initials, and a short `-` delimited description, e.g.
-    │                         `1.0-jqp-initial-data-exploration`.
+    ├── notebooks           <- Jupyter notebooks para análise e exploração dos dados.
     │
-    ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
+    ├── references          <- Dicionários de dados, manuais, e outros materiais de referência.
     │
-    ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
-    │   └── figures        <- Generated graphics and figures to be used in reporting
+    ├── reports             <- Análises geradas em HTML, PDF, LaTeX, etc.
+    │   └── figures         <- Gráficos e figuras geradas para relatórios.
     │
-    ├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
-    │                         generated with `pip freeze > requirements.txt`
+    ├── requirements.txt    <- Arquivo com as dependências para reprodução do ambiente.
     │
-    ├── setup.py           <- makes project pip installable (pip install -e .) so src can be imported
-    ├── src                <- Source code for use in this project.
-    │   ├── __init__.py    <- Makes src a Python module
-    │   │
-    │   ├── data           <- Scripts to download or generate data
-    │   │   └── make_dataset.py
-    │   │
-    │   ├── features       <- Scripts to turn raw data into features for modeling
-    │   │   └── build_features.py
-    │   │
-    │   ├── models         <- Scripts to train models and then use trained models to make
-    │   │   │                 predictions
-    │   │   ├── predict_model.py
-    │   │   └── train_model.py
-    │   │
-    │   └── visualization  <- Scripts to create exploratory and results oriented visualizations
-    │       └── visualize.py
+    ├── setup.py            <- Torna o `src` um pacote Python importável.
+    ├── src                 <- Código-fonte para o projeto.
+    │   ├── __init__.py     <- Torna `src` um módulo Python.
+    │   ├── data            <- Scripts para baixar ou gerar dados.
+    │   │   └── make_dataset.py
+    │   ├── features        <- Scripts para transformar dados brutos em features.
+    │   │   └── build_features.py
+    │   ├── models          <- Scripts para treinar e usar modelos.
+    │   │   ├── predict_model.py
+    │   │   └── train_model.py
+    │   └── visualization   <- Scripts para criar visualizações.
+    │       └── visualize.py
     │
-    └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
+    └── tox.ini             <- Arquivo de configuração para rodar testes.
+
 
 
 --------
+## Licença e Agradecimentos
 
-<p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
+Este projeto está sob a licença MIT.
+
+Este projeto foi construído com base no template cookiecutter-data-science.
