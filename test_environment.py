@@ -1,25 +1,18 @@
 import sys
 
-REQUIRED_PYTHON = "python3"
-
+REQUIRED_VERSION = (3, 9, 19)
 
 def main():
-    system_major = sys.version_info.major
-    if REQUIRED_PYTHON == "python":
-        required_major = 2
-    elif REQUIRED_PYTHON == "python3":
-        required_major = 3
+    system_version = sys.version_info[:3]
+
+    if system_version != REQUIRED_VERSION:
+        print(
+            f">>>ERRO: Este projeto requer Python {'.'.join(map(str, REQUIRED_VERSION))}. "
+            f"Encontrado: Python {'.'.join(map(str, system_version))}"
+        )
+        sys.exit(1)
     else:
-        raise ValueError("Unrecognized python interpreter: {}".format(
-            REQUIRED_PYTHON))
+        print(">>> Ambiente de desenvolvimento está configurado corretamente com Python 3.9.19!")
 
-    if system_major != required_major:
-        raise TypeError(
-            "This project requires Python {}. Found: Python {}".format(
-                required_major, sys.version))
-    else:
-        print(">>> Development environment passes all tests!")
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
