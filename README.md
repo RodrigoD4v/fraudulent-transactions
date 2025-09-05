@@ -18,14 +18,35 @@ Para uma análise completa e detalhada das métricas e da metodologia, consulte 
 ## Como Usar o Projeto
 
 Siga os passos abaixo para reproduzir os resultados ou usar o modelo treinado.
+Observação: É obrigatório ter Python 3.9.19 instalado para executar os fluxos abaixo.
 
-### 1. Obtenção dos Dados
+### Instalação do Make (Opcional)
+Se você estiver no Windows, instale o `make` usando o **Git Bash** para aproveitar a automação. Para macOS e Linux, o `make` geralmente já vem pré-instalado.
+
+---
+
+## 1. Obtenção dos Dados
 
 A base de dados utilizada é a [**Fraudulent Transactions Data**](https://www.kaggle.com/datasets/chitwanmanchanda/fraudulent-transactions-data) do Kaggle. Para obter os dados, siga as instruções na página da competição e salve os arquivos CSV na pasta `data/raw/`.
 
-### 2. Pré-requisitos
+Antes de colocar os dados, é necessário criar a estrutura de pastas do projeto. Você pode fazer isso manualmente ou usando o Makefile:
 
-1.  **Clone o Repositório:** Abra seu terminal e clone o projeto com o comando `git clone`.
+Opção 1: Criar pastas manualmente (Windows CMD/PowerShell)
+
+      md data\raw data\interim data\processed
+
+Opção 2: Criar pastas automaticamente usando o Makefile (Linux/Mac ou Windows com Git Bash + make)
+
+      make setup_dirs
+
+---
+
+## 2. Fluxos de Execução
+Existem duas formas de rodar o projeto:  
+- **Fluxo Manual**: indicado para usuários de Windows via CMD/PowerShell.  
+- **Fluxo Automático via Makefile**: recomendado para Linux/Mac (já incluí make) ou Windows com Git Bash (necessário instalar o utilitário make)
+
+1. **Clone o Repositório:** Abra seu terminal e clone o projeto com o comando `git clone`.
 
       ```bash
       git clone https://github.com/RodrigoD4v/fraudulent-transactions.git
@@ -45,75 +66,60 @@ A base de dados utilizada é a [**Fraudulent Transactions Data**](https://www.ka
       charm .
       ```
 
-2. **Crie as Pastas de Dados:** Como os dados não são enviados para o GitHub, crie as pastas necessárias para armazenar os arquivos.
+### 2.1 Fluxo Manual (Windows CMD/PowerShell)  
+Para usuários do Windows que preferem não usar `make`:
+
+1 **Crie e ative o ambiente virtual (Python 3.9.19 necessário):** 
 
    ```bash
-   # Para usuários de Git Bash, macOS e Linux
-   mkdir -p data/raw data/interim data/processed
-   
-   # Para usuários de Windows Command Prompt (CMD)
-   md data\raw data\interim data\processed
-   ```
-
-3. **Crie e Ative o Ambiente Virtual:** É altamente recomendado usar um ambiente virtual para isolar as dependências do projeto(Certifique-se de ter o Python 3.9.19 instalado).
-
-   ```bash
-   # Ativando o ambiente virtual
-
-   ## Windows
+   python -m venv venv
    venv\Scripts\activate
-   
-   ## macOS / Linux
-   source venv/bin/activate
    ```
 
-4. **Instale as dependências do projeto com o comando**:
+2. **Instale as dependências do projeto com o comando**:
 
    ```bash
    pip install -r requirements.txt
    ```
    
-5. **Instale o pacote local para tornar os scripts da pasta src importáveis**:
+3. **Instale o pacote local para tornar os scripts da pasta src importáveis**:
 
    ```bash
    pip install -e .
    ```
-
-## Estrutura
-
-O projeto segue a estrutura padrão cookiecutter-data-science. Os scripts principais estão localizados na pasta `src/models/`.
-
-## Etapas
-
-1. **Processamento de Dados**: Rode o script para processar os dados brutos e gerar os arquivos intermediários e processados.
+   
+4. **Execute os Scripts nessa ordem**:
 
    ```bash
    python src/data/make_dataset.py data/raw/Fraud.csv data/interim/Fraud_sample.parquet --nrows 500000
-   ```
-   
-2. **Engenharia de Features**: Execute o script para transformar os dados processados em features prontas para o modelo.
-
-   ```bash
    python src/features/build_features.py
-   ```
-   
-3. **Treine o Modelo**: Rode o script de treinamento para treinar o modelo em uma amostra dos dados.
-
-   ```bash
    python src/models/train_model.py
-   ```
-    
-4. **Gere as Previsões**: Utilize o modelo treinado para gerar previsões em todo o dataset.
-
-   ```bash
    python src/models/predict_model.py
    ```
 
-5. **Visualize os Resultados**: Os gráficos de desempenho são salvos automaticamente na pasta `reports/figures/`, após rodar o train_model.py e predict_model.py
+### 2.2 Fluxo via Makefile (Linux/Mac ou Windows Git Bash)
+No Windows, use o Git Bash tendo `make` instalado para rodar os comandos abaixo
+
+1. **Configuração inicial (cria a venv, testa a versão do Python e instala as dependências):**
+
+      ```bash
+      make requirements
+      ```
+   
+2. **Execute os Scripts nessa ordem**:
+
+      ```bash
+      make data        # Processa os dados
+      make features    # Gera features
+      make train       # Treina o modelo
+      make predict     # Faz previsões
+      ```
+
+Os gráficos de desempenho são salvos automaticamente na pasta `reports/figures/` após rodar o pipeline (train e predict), independentemente do fluxo que você escolher.
+
+---
 
 ## Organização do Projeto
-------------
-
 
     ├── LICENSE
     ├── Makefile            <- Arquivo com comandos para o pipeline (`make data`, `make train`).
@@ -152,9 +158,8 @@ O projeto segue a estrutura padrão cookiecutter-data-science. Os scripts princi
     │
     └── tox.ini             <- Arquivo de configuração para rodar testes.
 
+---
 
-
---------
 ## Licença e Agradecimentos
 
 Este projeto está sob a licença MIT.
