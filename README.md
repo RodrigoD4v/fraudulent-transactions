@@ -17,7 +17,7 @@ Para uma análise completa e detalhada das métricas e da metodologia, consulte 
 
 ## Como Usar o Projeto
 
-Siga os passos abaixo para reproduzir os resultados ou usar o modelo treinado.
+Siga os passos abaixo para reproduzir os resultados ou usar o modelo treinado.  
 Observação: É obrigatório ter Python 3.9.19 instalado para executar os fluxos abaixo.
 
 ### Instalação do Make (Opcional)
