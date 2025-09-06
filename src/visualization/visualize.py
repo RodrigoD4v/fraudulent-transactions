@@ -106,7 +106,12 @@ def plot_roc_comparison(model_results, save_path=None):
         
     plt.xlabel('Taxa de Falsos Positivos (FPR)')
     plt.ylabel('Taxa de Verdadeiros Positivos (TPR)')
-    plt.title('Comparação de Curvas ROC de Múltiplos Modelos')
+    
+    if len(model_results) == 1:
+        plt.title(f'Curva ROC: {list(model_results.keys())[0]}')
+    else:
+        plt.title('Comparação de Curvas ROC de Múltiplos Modelos')
+    
     plt.legend(loc="lower right")
     plt.grid(True)
     
@@ -126,7 +131,12 @@ def plot_precision_recall_comparison(model_results, save_path=None):
         
     plt.xlabel('Recall')
     plt.ylabel('Precision')
-    plt.title('Comparação de Curvas Precision-Recall de Múltiplos Modelos')
+    
+    if len(model_results) == 1:
+        plt.title(f'Curva Precision-Recall: {list(model_results.keys())[0]}')
+    else:
+        plt.title('Comparação de Curvas Precision-Recall de Múltiplos Modelos')
+    
     plt.legend(loc="lower left")
     plt.grid(True)
     
